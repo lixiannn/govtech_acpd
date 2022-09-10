@@ -24,6 +24,7 @@ def updateStudentResult():
     record = Course_Result.query.filter_by(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled ).first()
     if record:
         record.grade_point = grade_point # update grade_point
+        db.session.commit()
     else:
         # else, create new entry
         new_record = Course_Result(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled, grade_point=grade_point)
@@ -64,5 +65,12 @@ def deleteStudent():
 
 # for student to view his/her own GPA
 @main.route('/viewGPA')
+@login_required
 def viewGPA():
-    return 'GPA'
+    # query for student's course result
+    records = Course_Result.query.filter_by(student_id=current_user.user_id).all()
+    if records:
+        gpa = count_gpa(records)
+        return f'GPA of {current_user.full_name} is: {gpa}'
+    else:
+        return 'No course result records.'
