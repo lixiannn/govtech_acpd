@@ -36,6 +36,7 @@ def createAccount():
 def login():
     # get info
     account = request.get_json()
+    print(account)
     email = account['email']
     password = account['password']
     remember = True # remember user is logged in
