@@ -1,5 +1,5 @@
 from flask import Blueprint, request, session
-from flask_login import login_user, login_required, current_user, logout_user
+from flask_login import login_user, login_required, current_user, logout_user, fresh_login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from . import db
@@ -36,7 +36,6 @@ def createAccount():
 def login():
     # get info
     account = request.get_json()
-    print(account)
     email = account['email']
     password = account['password']
     remember = True # remember user is logged in
@@ -55,3 +54,16 @@ def login():
 def logout():
     logout_user()
     return 'Logout Successfully'
+
+@auth.route('/changePassword', methods=['POST'])
+@fresh_login_required
+def changePassword():
+    # get info
+    req = request.get_json()
+    password = req['password']
+
+    # update password
+    current_user.password = generate_password_hash(password, method='sha256')
+    db.session.commit()
+
+    return 'Password is Changed Successfully'
