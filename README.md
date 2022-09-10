@@ -4,23 +4,17 @@
 3. Depending on your environment,
 
     - If you are on mac, run:
-
-        `export FLASK_APP=project`
-
-        `flask run`
-
+        ```
+        export FLASK_APP=project
+        flask run
     - If you are on windows CMD, run:
-
-        `set FLASK_APP=project`
-
-        `flask run`
-
+        ```
+        set FLASK_APP=project
+        flask run
     - If you are on windows powershell, run: 
-
-        `$env:FLASK_APP = "project"`
-
-        `flask run`
-
+        ```
+        $env:FLASK_APP = "project"
+        flask run
 4. Once it is running, navigate to `http://127.0.0.1:5000/{API_ENDPOINT}` for corresponding API.
 
 # API Endpoints available
