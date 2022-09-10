@@ -12,6 +12,11 @@ new_user = models.User(email='professor@email.com', full_name='Professor', passw
 db.session.add(new_user)
 db.session.commit()
 
+# create a student for testing
+new_user = models.User(email='test@test.com', full_name='test0', password=generate_password_hash('password', method='sha256'), role='student')
+db.session.add(new_user)
+db.session.commit()
+
 # populate some courses
 new_course = models.Course(course_id=1001, course_name='Intro to Python', professor_id=1, credit=3)
 db.session.add(new_course)

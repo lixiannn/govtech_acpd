@@ -1,5 +1,6 @@
 from flask import Blueprint, request
-from project.models import Course_Result
+from project.functions import count_gpa
+from project.models import Course_Result, User
 from . import db
 from flask_login import login_required, current_user
 
@@ -32,9 +33,26 @@ def updateStudentResult():
     return 'Result updated'
 
 # for professors to calculate GPA of a specified student
-@main.route('/calculateGPA')
+@main.route('/calculateGPA', methods=['POST'])
+@login_required
 def calculateGPA():
-    return 'GPA'
+    # check if current_user is prof
+    # only prof can view gpa of any specified student
+    if current_user.role != 'professor':
+        return 'Unauthorized. Only professors can view GPA of specified student'
+
+    # get info
+    req = request.get_json()
+    student_id = req['student_id']
+
+    # query for student's course result
+    records = Course_Result.query.filter_by(student_id=student_id).all()
+    if records:
+        gpa = count_gpa(records)
+        user = User.query.filter_by(user_id=student_id).first()
+        return f'GPA of {user.full_name} is: {gpa}'
+    else:
+        return 'No course result records. Please add them first.'
 
 @main.route('/getCoursePerformance')
 def getCoursePerformance():
