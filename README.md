@@ -91,3 +91,25 @@
 9. `/viewGPA`: allows students to view their own GPA
     - The user must be logged in in order to call this API.
     - It takes in a `GET` request
+
+# Mock data
+Users
+| user_id | full_name | email               | password      | role      |
+|---------|-----------|---------------------|---------------|-----------|
+| 1       | Professor | professor@email.com | strongPwd123! | professor |
+| 2       | test0     | test0@test0.com     | password      | student   |
+| 3       | test1     | test1@test1.com     | password      | student   |
+
+Courses
+| course_id | course_name     | professor_id | credit |
+|-----------|-----------------|--------------|--------|
+| 1001      | Intro to Python | 1            | 3      |
+| 1002      | Math            | 1            | 2      |
+
+Course Result
+| student_id | course_id | year_enrolled | grade_point |
+|------------|-----------|---------------|-------------|
+| 2          | 1001      | 2022          | 5.0         |
+| 3          | 1001      | 2022          | 1.0         |
+| 2          | 1002      | 2022          | 3.5         |
+| 3          | 1002      | 2022          | 4.0         |
