@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from project.functions import count_gpa
+from project.functions import count_gpa, get_mean_sd
 from project.models import Course_Result, User
 from . import db
 from flask_login import login_required, current_user
@@ -55,9 +55,25 @@ def calculateGPA():
     else:
         return 'No course result records. Please add them first.'
 
-@main.route('/getCoursePerformance')
+@main.route('/getCoursePerformance', methods=['POST'])
+@login_required
 def getCoursePerformance():
-    return 'Course Performance'
+    # check if current_user is prof
+    if current_user.role != 'professor':
+        return 'Unauthorized. Only professors can view course performance'
+    
+    # get info
+    req = request.get_json()
+    course_id = req['course_id']
+    year_enrolled = req['year_enrolled']
+
+    # query for course results
+    results = Course_Result.query.filter_by(course_id=course_id, year_enrolled=year_enrolled).all()
+    if results:
+        mean, sd = get_mean_sd(results)
+        return f'Mean and Standard Deviation for Course {course_id}: {mean}, {sd}'
+    else:
+        return 'No records found.'
 
 @main.route('/deleteStudent')
 def deleteStudent():
