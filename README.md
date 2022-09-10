@@ -1,25 +1,25 @@
 # How to run this program
 1. Install dependencies: `pip install -r requirements.txt`
-2. Intialise db: `python init_db.py`
+2. Intialise db: `python init_db.py`. This will create the tables and populate them with some initial data.
 3. Depending on your environment,
 
-    If you are on mac, run:
+    - If you are on mac, run:
 
-    `export FLASK_APP=project`
+        `export FLASK_APP=project`
 
-    `flask run`
+        `flask run`
 
-    If you are on windows CMD, run:
+    - If you are on windows CMD, run:
 
-    `set FLASK_APP=project`
+        `set FLASK_APP=project`
 
-    `flask run`
+        `flask run`
 
-    If you are on windows powershell, run: 
+    - If you are on windows powershell, run: 
 
-    `$env:FLASK_APP = "project"`
+        `$env:FLASK_APP = "project"`
 
-    `flask run`
+        `flask run`
 
 4. Once it is running, navigate to `http://127.0.0.1:5000/{API_ENDPOINT}` for corresponding API.
 
