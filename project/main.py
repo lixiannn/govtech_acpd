@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from project.auth import login
 from project.functions import count_gpa, get_mean_sd
 from project.models import Course_Result, User
 from . import db
@@ -75,9 +76,26 @@ def getCoursePerformance():
     else:
         return 'No records found.'
 
-@main.route('/deleteStudent')
+@main.route('/deleteStudent', methods=['POST'])
+@login_required
 def deleteStudent():
-    return 'deleteStudent'
+    # check if current_user is prof
+    if current_user.role != 'professor':
+        return 'Unauthorized. Only professors can delete student record'
+
+    # get info
+    req = request.get_json()
+    student_id = req['student_id']
+    user = User.query.filter_by(user_id=student_id).first()
+    name = user.full_name
+
+    # delete student's course results
+    Course_Result.query.filter_by(student_id=student_id).delete()
+    # delete student record
+    User.query.filter_by(user_id=student_id).delete()
+    db.session.commit()
+   
+    return f'Student Record for {name} deleted'
 
 # for student to view his/her own GPA
 @main.route('/viewGPA')
