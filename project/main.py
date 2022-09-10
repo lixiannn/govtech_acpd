@@ -76,16 +76,14 @@ def getCoursePerformance():
     else:
         return 'No records found.'
 
-@main.route('/deleteStudent', methods=['POST'])
+@main.route('/deleteStudent/<student_id>', methods=['DELETE'])
 @login_required
-def deleteStudent():
+def deleteStudent(student_id):
     # check if current_user is prof
     if current_user.role != 'professor':
         return 'Unauthorized. Only professors can delete student record'
 
     # get info
-    req = request.get_json()
-    student_id = req['student_id']
     user = User.query.filter_by(user_id=student_id).first()
     name = user.full_name
 
