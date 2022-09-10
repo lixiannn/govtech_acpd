@@ -17,11 +17,12 @@ class Course(db.Model):
     course_id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(100))
     professor_id = db.Column(db.Integer)
+    credit = db.Column(db.Integer)
 
 class Course_Result(db.Model):
     course_result_id = db.Column(db.Integer, primary_key=True) 
     student_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))
     year_enrolled = db.Column(db.Integer)
-    score = db.Column(db.Integer)
+    grade_point = db.Column(db.Integer)
 

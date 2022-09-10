@@ -17,15 +17,15 @@ def updateStudentResult():
     student_id = req['student_id']
     course_id = req['course_id']
     year_enrolled = req['year_enrolled']
-    score = req['score']
+    grade_point = req['grade_point'] # [0.0-5.0]
 
     # check if record already exists
     record = Course_Result.query.filter_by(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled ).first()
     if record:
-        record.score = score # update score
+        record.grade_point = grade_point # update grade_point
     else:
         # else, create new entry
-        new_record = Course_Result(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled, score=score)
+        new_record = Course_Result(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled, grade_point=grade_point)
         db.session.add(new_record)
         db.session.commit()
 
