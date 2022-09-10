@@ -23,7 +23,7 @@ def createAccount():
     # check if user exists
     user = User.query.filter_by(email=email).first()
     if user:
-        return 'User already exists!'
+        return f'User already exists! student_id: {user.user_id}'
 
     # insert into db if user does not exist
     new_user = User(email=email, full_name=full_name, password=generate_password_hash(password, method='sha256'), role=role)

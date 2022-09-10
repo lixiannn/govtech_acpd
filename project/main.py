@@ -21,6 +21,9 @@ def updateStudentResult():
     year_enrolled = req['year_enrolled']
     grade_point = req['grade_point'] # [0.0-5.0]
 
+    if grade_point < 0 or grade_point > 5.0:
+        return "Grade Point should be in the range of 0.0-5.0 inclusive."
+
     # check if record already exists
     record = Course_Result.query.filter_by(student_id=student_id, course_id=course_id, year_enrolled=year_enrolled ).first()
     if record:
